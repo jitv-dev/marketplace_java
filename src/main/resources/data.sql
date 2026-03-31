@@ -1,0 +1,14 @@
+INSERT INTO productos (nombre, descripcion, precio, stock, categoria, imagen_url, activo) VALUES
+                                                                                              ('iPhone 14 128GB Negro',       'Smartphone Apple, pantalla OLED 6.1", chip A15 Bionic.',           250000.00, 8,  'Electrónica',       'https://via.placeholder.com/300x200?text=iPhone+14',     true),
+                                                                                              ('Samsung TV 55" 4K UHD',       'Smart TV Samsung Crystal, HDR10+, Tizen OS.',                       180000.00, 3,  'Electrónica',       'https://via.placeholder.com/300x200?text=Samsung+TV',    true),
+                                                                                              ('Zapatillas Nike Air Max 270',  'Running Nike Air Max, talle 42, negro/blanco.',                      45000.00, 15, 'Ropa y Accesorios', 'https://via.placeholder.com/300x200?text=Nike+Air',      true),
+                                                                                              ('Silla Gamer RGB Ergonómica',   'Silla con reposapiés, soporte lumbar y reposacabezas.',              95000.00, 6,  'Hogar y Jardín',    'https://via.placeholder.com/300x200?text=Silla+Gamer',   true),
+                                                                                              ('Bicicleta MTB Rodado 29',      'Mountain bike 29", 21 velocidades, frenos a disco.',                120000.00, 4,  'Deportes',          'https://via.placeholder.com/300x200?text=Bicicleta+MTB', true),
+                                                                                              ('Auriculares Sony WH-1000XM5',  'Cancelación de ruido activa, 30hs batería, Bluetooth 5.2.',          85000.00, 10, 'Electrónica',       'https://via.placeholder.com/300x200?text=Sony+XM5',      true),
+                                                                                              ('Camiseta Adidas Originals',    'Remera algodón 100%, talle M, varios colores.',                       8500.00, 20, 'Ropa y Accesorios', 'https://via.placeholder.com/300x200?text=Adidas',        true),
+                                                                                              ('Set Ollas Antiadherentes x5',  'Aluminio con recubrimiento antiadherente, apto inducción.',           35000.00, 7,  'Hogar y Jardín',    'https://via.placeholder.com/300x200?text=Ollas',         true);
+
+INSERT INTO usuarios (nombre, email, telefono, direccion, username) VALUES
+                                                                        ('Admin Vendedor', 'vendedor@market.com', '1122334455', 'Av. Corrientes 1234, CABA', 'vendedor'),
+                                                                        ('Juan Comprador', 'juan@email.com',      '1199887766', 'Floresta 567, Buenos Aires', 'comprador');
+```

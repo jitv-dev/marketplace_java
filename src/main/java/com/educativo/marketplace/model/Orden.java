@@ -1,4 +1,4 @@
-package model;
+package com.educativo.marketplace.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
