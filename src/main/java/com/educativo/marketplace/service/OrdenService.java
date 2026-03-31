@@ -35,7 +35,7 @@ public class OrdenService {
     }
 
     public List<Orden> listarPorUsuario(Long usuarioId){
-        return ordenRepository.findByUserOrderByFechaDesc(usuarioId);
+        return ordenRepository.findByUsuarioOrderByFechaDesc(usuarioId);
     }
 
     public List<Orden> listarTodas(){

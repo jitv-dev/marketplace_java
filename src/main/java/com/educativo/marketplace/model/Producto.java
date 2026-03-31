@@ -30,12 +30,10 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @NotBlank(message = "El precio es obligatorio")
     @DecimalMin(value="0.01", message="El precio debe ser mayor a Cero")
     @Column(nullable = false)
     private Double precio;
 
-    @NotBlank(message = "El stock es obligatorio")
     @Size(min = 1, max = 10000)
     @Column(nullable = false)
     private Integer stock;

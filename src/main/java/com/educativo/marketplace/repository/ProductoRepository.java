@@ -16,5 +16,5 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<String> findByCategoriasDistintas();
 
     @Query("SELECT p FROM Producto p WHERE p.stock <=5 AND p.activo = true")
-    List<String> findStockBajo();
+    List<Producto> findStockBajo();
 }

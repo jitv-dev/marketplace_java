@@ -7,10 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.educativo.marketplace.service.ProductoService;
 
@@ -29,15 +26,22 @@ public class ProductoController {
 
     @GetMapping("/nuevo")
     @PreAuthorize("hasRole('ADMIN')")
+    public String formularioNuevo(Model model) {
+        model.addAttribute("producto", new Producto());
+        return "productos/formulario";
+    }
+
+    @PostMapping("/guardar")
+    @PreAuthorize("hasRole('ADMIN')")
     public String guardar(@Valid @ModelAttribute Producto producto,
                           BindingResult result,
-                          RedirectAttributes flash){
-        if(result.hasErrors()){
+                          RedirectAttributes flash) {
+        if (result.hasErrors()) {
             return "productos/formulario";
         }
         productoService.guardar(producto);
         flash.addFlashAttribute("message", "Producto publicado correctamente");
-        return  "redirect:/";
+        return "redirect:/";
     }
 
     @GetMapping("/editar/{id}")

@@ -1,4 +1,4 @@
-INSERT INTO productos (nombre, descripcion, precio, stock, categoria, imagen_url, activo) VALUES
+INSERT INTO productos (nombre, descripcion, precio, stock, categoria, imagenUrl, activo) VALUES
                                                                                               ('iPhone 14 128GB Negro',       'Smartphone Apple, pantalla OLED 6.1", chip A15 Bionic.',           250000.00, 8,  'Electrónica',       'https://via.placeholder.com/300x200?text=iPhone+14',     true),
                                                                                               ('Samsung TV 55" 4K UHD',       'Smart TV Samsung Crystal, HDR10+, Tizen OS.',                       180000.00, 3,  'Electrónica',       'https://via.placeholder.com/300x200?text=Samsung+TV',    true),
                                                                                               ('Zapatillas Nike Air Max 270',  'Running Nike Air Max, talle 42, negro/blanco.',                      45000.00, 15, 'Ropa y Accesorios', 'https://via.placeholder.com/300x200?text=Nike+Air',      true),
@@ -11,4 +11,3 @@ INSERT INTO productos (nombre, descripcion, precio, stock, categoria, imagen_url
 INSERT INTO usuarios (nombre, email, telefono, direccion, username) VALUES
                                                                         ('Admin Vendedor', 'vendedor@market.com', '1122334455', 'Av. Corrientes 1234, CABA', 'vendedor'),
                                                                         ('Juan Comprador', 'juan@email.com',      '1199887766', 'Floresta 567, Buenos Aires', 'comprador');
-```

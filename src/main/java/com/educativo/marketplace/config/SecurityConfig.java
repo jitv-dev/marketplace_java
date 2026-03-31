@@ -26,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var vendedor = User.builder()
+                .username("vendedor")
                 .password(encoder.encode("vende123"))
                 .roles("ADMIN", "USER")
                 .build();
