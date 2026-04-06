@@ -1,9 +1,7 @@
 package com.educativo.marketplace.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,11 +28,14 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @NotNull(message = "El precio es obligatorio")
     @DecimalMin(value="0.01", message="El precio debe ser mayor a Cero")
     @Column(nullable = false)
     private Double precio;
 
-    @Size(min = 1, max = 10000)
+    @NotNull(message = "El stock es obligatorio")
+    @Min(value = 0, message = "El stock no puede ser negativo")
+    @Max(value = 10000, message = "El stock máximo es 10000")
     @Column(nullable = false)
     private Integer stock;
 

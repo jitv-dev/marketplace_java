@@ -1,10 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SpringMarket | Comprar y vender fácil</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <style>
+        body { background-color: #f0f0f0; }
+        .navbar { background-color: #ffe600 !important; }
+        .navbar-brand { color: #333 !important; font-weight: 800; font-size: 1.5rem; }
+        .btn-categoria { background: white; border: 1px solid #ddd; font-size: .85rem; }
+        .btn-categoria.activa { background: #333; color: white; border-color: #333; }
+        .card-producto { transition: transform .2s; cursor: pointer; }
+        .card-producto:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.15); }
+        .precio { color: #00a650; font-size: 1.35rem; font-weight: 700; }
+        .envio-gratis { color: #00a650; font-size: .78rem; font-weight: 600; }
+    </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
+<nav class="navbar shadow-sm py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" th:href="@{/}">🛒 SpringMarket</a>
+        <div class="d-flex gap-2 align-items-center">
+            <a sec:authorize="hasRole('ADMIN')"
+               th:href="@{/productos/nuevo}"
+               class="btn btn-dark btn-sm fw-semibold">+ Publicar producto</a>
+
+            <span sec:authorize="isAuthenticated()" class="d-flex align-items-center gap-2">
+                <small class="text-dark fw-semibold" sec:authentication="name"></small>
+                <a th:href="@{/logout}" class="btn btn-outline-dark btn-sm">Salir</a>
+            </span>
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}" class="btn btn-outline-dark btn-sm">Ingresar</a>
+            </span>
+        </div>
+    </div>
+</nav>
+
+<!-- FILTRO DE CATEGORÍAS -->
+<div class="bg-white border-bottom py-2 shadow-sm">
+    <div class="container d-flex flex-wrap gap-2">
+        <a th:href="@{/}"
+           class="btn btn-sm btn-categoria"
+           th:classappend="${categoriaActiva == null} ? ' activa' : ''">
+            Todos
+        </a>
+        <a th:each="cat : ${categorias}"
+           th:href="@{/(categoria=${cat})}"
+           th:text="${cat}"
+           class="btn btn-sm btn-categoria"
+           th:classappend="${categoriaActiva == cat} ? ' activa' : ''">
+        </a>
+    </div>
+</div>
+
+<!-- MENSAJES FLASH -->
+<div class="container mt-3">
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+
+<!-- GRILLA DE PRODUCTOS -->
+<div class="container my-4">
+    <h6 class="mb-3 text-muted"
+        th:text="${categoriaActiva != null ? categoriaActiva : 'Todos los productos'}">
+    </h6>
+
+    <div class="row row-cols-2 row-cols-md-4 g-3">
+        <div class="col" th:each="p : ${productos}">
+            <div class="card h-100 border-0 card-producto shadow-sm">
+                <img th:src="${p.imagenUrl != null ? p.imagenUrl :
+                              'https://placehold.co/300x200?text=Producto'}"
+                     class="card-img-top" alt="imagen producto"
+                     style="height:170px; object-fit:cover;"/>
+                <div class="card-body pb-1">
+                    <p class="small text-truncate mb-1 fw-semibold"
+                       th:text="${p.nombre}"></p>
+                    <div class="precio" th:text="'$' + ${#numbers.formatDecimal(p.precio, 0, 'COMMA', 0, 'POINT')}"></div>
+                    <div class="envio-gratis" th:if="${p.precio >= 5000}">🚚 Envío gratis</div>
+                    <div class="mt-2 d-flex flex-wrap gap-1">
+                        <span class="badge bg-light text-dark border small"
+                              th:text="${p.categoria}"></span>
+                        <span class="badge bg-warning text-dark small"
+                              th:if="${p.stock <= 5 and p.stock > 0}"
+                              th:text="'¡Solo ' + ${p.stock} + '!'"></span>
+                        <span class="badge bg-secondary small"
+                              th:if="${p.stock == 0}">Sin stock</span>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-0 pb-3 pt-2">
+                    <button class="btn btn-warning w-100 btn-sm fw-semibold"
+                            th:disabled="${p.stock == 0}">
+                        <span th:if="${p.stock > 0}">Comprar</span>
+                        <span th:if="${p.stock == 0}">Sin stock</span>
+                    </button>
+                    <!-- Controles visibles solo para ADMIN -->
+                    <div sec:authorize="hasRole('ADMIN')" class="d-flex gap-1 mt-2">
+                        <a th:href="@{/productos/editar/{id}(id=${p.id})}"
+                           class="btn btn-outline-secondary btn-sm w-50">✏️ Editar</a>
+                        <a th:href="@{/productos/eliminar/{id}(id=${p.id})}"
+                           class="btn btn-outline-danger btn-sm w-50"
+                           onclick="return confirm('¿Eliminar este producto?')">🗑️</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sin productos -->
+    <div th:if="${#lists.isEmpty(productos)}" class="text-center py-5">
+        <p class="text-muted fs-5">No hay productos disponibles en esta categoría.</p>
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/productos/nuevo}"
+           class="btn btn-warning mt-2 fw-semibold">
+            + Publicar primer producto
+        </a>
+    </div>
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+    <small>© 2025 SpringMarket — Alkemy Módulo 6</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

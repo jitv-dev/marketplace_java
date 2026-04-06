@@ -27,13 +27,13 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         var vendedor = User.builder()
                 .username("vendedor")
-                .password(encoder.encode("vende123"))
+                .password(encoder.encode("vend123"))
                 .roles("ADMIN", "USER")
                 .build();
 
         var comprado  = User.builder()
-                .username("comprado")
-                .password(encoder.encode("comprado123"))
+                .username("comprador")
+                .password(encoder.encode("comp123"))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(vendedor, comprado);
